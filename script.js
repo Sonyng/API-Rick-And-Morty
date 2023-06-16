@@ -55,7 +55,7 @@ const header = document.getElementById("Header")
         //evento de click para chamar função de exibir detalhes do personagem
         PersoDIV.addEventListener("click", () => {
           ExibirInfoPerso(Personagens);
-          header.style.width = '100%';
+          header.style.width = '390px';
           Background_Header.textContent = `Personagem: ${Personagens.id}`
   
     
