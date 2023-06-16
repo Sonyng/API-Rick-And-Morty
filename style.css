@@ -11,9 +11,10 @@ header {
   align-items: center;
   background-color: #323dd4;
   color: rgb(98, 96, 105);
+  width: 1500px;
   padding: auto;
   height: 60px;
-  width: 100vw;
+  border-bottom-right-radius:20px ;
   text-align: center;
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
@@ -119,7 +120,6 @@ header {
 .detail-page{
   height: 700px;
   display: flex;
-  width: 100vw;
   background-color: rgb(10, 6, 0);
   align-items: center;
   background-image: linear-gradient(
