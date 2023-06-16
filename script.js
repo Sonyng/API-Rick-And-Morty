@@ -3,6 +3,7 @@ const apiUrl = "https://rickandmortyapi.com/api/character";
 const PersonagensContainer = document.getElementById("charactersContainer");
 const PageInfo = document.getElementById("detailPage");
 const Background_Header = document.getElementById("Background_Header")
+const header = document.getElementById("Header")
 
     //Requisição Personagens
     function getPersonagens() {
@@ -54,10 +55,10 @@ const Background_Header = document.getElementById("Background_Header")
         //evento de click para chamar função de exibir detalhes do personagem
         PersoDIV.addEventListener("click", () => {
           ExibirInfoPerso(Personagens);
-
+          header.style.width = '100%';
           Background_Header.textContent = `Personagem: ${Personagens.id}`
   
-          PageInfo.style.backgroundColor = "red"
+    
         });
 
         PersonagensContainer.appendChild(PersoDIV);
