@@ -1,9 +1,9 @@
 const apiUrl = "https://rickandmortyapi.com/api/character";
 //puxando as divs principais
-const PersonagensContainer = document.getElementById("charactersContainer");
-const PageInfo = document.getElementById("detailPage");
-const Background_Header = document.getElementById("Background_Header")
-const header = document.getElementById("Header")
+const PersonagensContainer = document.getElementById("charactersContainer")// page primaria / secundaria
+const PageInfo = document.getElementById("detailPage") // Background page secundaria
+const Background_Header = document.getElementById("Background_Header") //Background parte superior
+const header = document.getElementById("Header") // Parte superior fixa
 
     //Requisição Personagens
     function getPersonagens() {
@@ -12,7 +12,6 @@ const header = document.getElementById("Header")
         .then(data => {
           const Personagens = data.results
           ExibirCardPerso(Personagens)
-          console.log(Personagens)
         })
         //Exibir qual o erro
         .catch(error => {
@@ -20,12 +19,12 @@ const header = document.getElementById("Header")
         });
     }
 
-
-
     //Function Grid Personagens
     function ExibirCardPerso(Personagens) {
+      //puxa info do fech
       Personagens.forEach(Personagens => {
-        //Cria div de cards
+        
+        //Cria div de cards Page primaria 
         const PersoDIV = document.createElement("div")
         PersoDIV.classList.add("character")
 
@@ -52,32 +51,47 @@ const header = document.getElementById("Header")
 
         PersoDIV.appendChild(CardImage)
         PersoDIV.appendChild(CardInfo)
-        //evento de click para chamar função de exibir detalhes do personagem
+
+
+        PersonagensContainer.appendChild(PersoDIV)       
+        //evento de click para chamar função de exibir page secundaria dos personagens
         PersoDIV.addEventListener("click", () => {
           ExibirInfoPerso(Personagens);
           header.style.width = '390px';
           Background_Header.textContent = `Personagem: ${Personagens.id}`
+          header.style.width = "100%"
+          PageInfo.style.height = "93.8vh"
+          PageInfo.style.backgroundImage = "none" 
   
+         //const URL clicada
+        const imagemURL = Personagens.image;
     
+        //chamada function obter cor
+        obterCorPredominante(imagemURL)
+          .then((corPredominante) => {
+            PageInfo.style.backgroundColor = corPredominante;
+          })
+          .catch((error) => {
+            console.error('Ocorreu um erro: ', error);
+          });
+        
         });
-
-        PersonagensContainer.appendChild(PersoDIV);
+        
       });
-    }
-
+  }
 
     // Função para exibir a página de detalhes do personagem
     function ExibirInfoPerso(Personagens) {
-      //cria espaço page fora do principal
+      //Display none para sobrepor page 1 com background page 2
       PersonagensContainer.style.display = "none"
       PageInfo.innerHTML = ""
 
 //INFO
-
       //IMG
       const detailImage = document.createElement("img")
       detailImage.src = Personagens.image
       detailImage.alt = Personagens.name
+
       //Info
       const detailInfo = document.createElement("div")
       detailInfo.classList.add("character-info")
@@ -110,7 +124,7 @@ const header = document.getElementById("Header")
       const backButton = document.createElement("a")
       backButton.href = "#"
       backButton.classList.add("back-button")
-      backButton.textContent = "Back to Characters"
+      backButton.textContent = "Voltar aos personagens"
       //evento de click para requisição
       backButton.addEventListener("click", () => {
         PersonagensContainer.style.display = "grid"
@@ -132,10 +146,21 @@ const header = document.getElementById("Header")
 
 }
 
+
     // Chamada de personagens
     getPersonagens()
 
-
-
-
-    
+    //Function obter cor IMG com node-vibrant 
+    function obterCorPredominante(imagemURL) {
+      return new Promise((resolve, reject) => {
+        Vibrant.from(imagemURL)
+          .getPalette()
+          .then((palette) => {
+            const corPredominante = palette.Vibrant.getHex();
+            resolve(corPredominante);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    }
